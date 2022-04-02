@@ -5,7 +5,6 @@
 // @description:fr  Regardez des vidéos YouTube avec des restrictions d'âge sans vous inscrire et sans confirmer votre âge :)
 // @description:it  Guarda i video con restrizioni di età su YouTube senza login e senza verifica dell'età :)
 // @version         %version%
-// @version         2.4.7
 // @updateURL       https://github.com/NiborH68/Simple-YouTube-Age-and-Workspace-Restriction-Bypass/raw/main/dist/Simple-YouTube-Age-Restriction-Bypass.user.js
 // @downloadURL     https://github.com/NiborH68/Simple-YouTube-Age-and-Workspace-Restriction-Bypass/raw/main/dist/Simple-YouTube-Age-Restriction-Bypass.user.js
 // @author          Zerody (https://github.com/zerodytrash)
