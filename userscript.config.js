@@ -10,6 +10,7 @@
 // @supportURL      https://github.com/zerodytrash/Simple-YouTube-Age-Restriction-Bypass/issues
 // @license         MIT
 // @match           https://www.youtube.com/*
+// @match           https://www.youtube-nocookie.com/*
 // @match           https://m.youtube.com/*
 // @match           https://music.youtube.com/*
 // @grant           none

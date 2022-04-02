@@ -25,6 +25,15 @@ function processYtData(ytData) {
         else if (inspector.isEmbeddedPlayerObject(ytData) && inspector.isAgeRestricted(ytData.previewPlayabilityStatus)) {
             playerUnlocker.unlockPlayerResponse(ytData);
         }
+        else if (ytData.playabilityStatus?.status === 'ERROR') {
+            ytData.videoDetails = {};
+            const urlParams = new URLSearchParams(window.location.search);
+            ytData.videoDetails.videoId = urlParams.get('v')
+            playerUnlocker.unlockPlayerResponse(ytData);
+        }
+        else if (ytData.previewPlayabilityStatus?.status === 'ERROR') {
+            playerUnlocker.unlockPlayerResponse(ytData);
+        }
     } catch (err) {
         logger.error(err, 'Video unlock failed');
     }

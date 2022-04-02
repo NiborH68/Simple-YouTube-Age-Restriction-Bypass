@@ -3,10 +3,10 @@ export const UNLOCKABLE_PLAYABILITY_STATUSES = ['AGE_VERIFICATION_REQUIRED', 'AG
 export const VALID_PLAYABILITY_STATUSES = ['OK', 'LIVE_STREAM_OFFLINE'];
 
 // User needs to confirm the unlock process on embedded player?
-export const ENABLE_UNLOCK_CONFIRMATION_EMBED = true;
+export const ENABLE_UNLOCK_CONFIRMATION_EMBED = false;
 
 // Show notification?
-export const ENABLE_UNLOCK_NOTIFICATION = true;
+export const ENABLE_UNLOCK_NOTIFICATION = false;
 
 // These are the proxy servers that are sometimes required to unlock videos with age restrictions.
 // You can host your own account proxy instance. See https://github.com/zerodytrash/Simple-YouTube-Age-Restriction-Bypass/tree/main/account-proxy

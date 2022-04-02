@@ -11,6 +11,7 @@
 // @supportURL      https://github.com/zerodytrash/Simple-YouTube-Age-Restriction-Bypass/issues
 // @license         MIT
 // @match           https://www.youtube.com/*
+// @match           https://www.youtube-nocookie.com/*
 // @match           https://m.youtube.com/*
 // @match           https://music.youtube.com/*
 // @grant           none
@@ -41,7 +42,7 @@
   const VALID_PLAYABILITY_STATUSES = ['OK', 'LIVE_STREAM_OFFLINE'];
 
   // User needs to confirm the unlock process on embedded player?
-  const ENABLE_UNLOCK_CONFIRMATION_EMBED = true;
+  const ENABLE_UNLOCK_CONFIRMATION_EMBED = false;
 
   // These are the proxy servers that are sometimes required to unlock videos with age restrictions.
   // You can host your own account proxy instance. See https://github.com/zerodytrash/Simple-YouTube-Age-Restriction-Bypass/tree/main/account-proxy
@@ -115,16 +116,6 @@
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${name}=`);
     if (parts.length === 2) return parts.pop().split(';').shift();
-  }
-
-  function pageLoaded() {
-    if (document.readyState === 'complete') return Promise.resolve();
-
-    const deferred = new Deferred();
-
-    window.addEventListener('load', deferred.resolve, { once: true });
-
-    return deferred;
   }
 
   function createDeepCopy(obj) {
@@ -579,23 +570,12 @@
   }
 
   async function show(message) {let duration = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 5;
-    if (isEmbed) return;
-
-    await pageLoaded();
-
-    // Do not show notification when tab is in background
-    if (document.visibilityState === 'hidden') return;
-
-    // Append toast container to DOM, if not already done
-    if (!nToastContainer.isConnected) document.documentElement.append(nToastContainer);
-
-    nToast.duration = duration * 1000;
-    nToast.show(message);
+    return;
   }
 
   var Toast = { show };
 
-  var buttonTemplate = "<div style=\"margin-top: 15px !important; padding: 3px 10px 3px 10px; margin: 0px auto; background-color: #4d4d4d; width: fit-content; font-size: 1.2em; text-transform: uppercase; border-radius: 3px; cursor: pointer;\">\r\n    <div class=\"button-text\"></div>\r\n</div>";
+  var buttonTemplate = "<div style=\"margin-top: 15px !important; padding: 3px 10px 3px 10px; margin: 0px auto; background-color: #4d4d4d; width: fit-content; font-size: 1.2em; text-transform: uppercase; border-radius: 3px; cursor: pointer;\">\n    <div class=\"button-text\"></div>\n</div>";
 
   let buttons = {};
 
@@ -954,13 +934,22 @@
   }
 
   function processYtData(ytData) {
-    try {
+    try {var _ytData$playabilitySt, _ytData$previewPlayab;
       // Player Unlock #1: Initial page data structure and response from `/youtubei/v1/player` XHR request
       if (isPlayerObject(ytData) && isAgeRestricted(ytData.playabilityStatus)) {
         unlockPlayerResponse(ytData);
       }
       // Player Unlock #2: Embedded Player inital data structure
       else if (isEmbeddedPlayerObject(ytData) && isAgeRestricted(ytData.previewPlayabilityStatus)) {
+        unlockPlayerResponse(ytData);
+      } else
+      if (((_ytData$playabilitySt = ytData.playabilityStatus) === null || _ytData$playabilitySt === void 0 ? void 0 : _ytData$playabilitySt.status) === 'ERROR') {
+        ytData.videoDetails = {};
+        const urlParams = new URLSearchParams(window.location.search);
+        ytData.videoDetails.videoId = urlParams.get('v');
+        unlockPlayerResponse(ytData);
+      } else
+      if (((_ytData$previewPlayab = ytData.previewPlayabilityStatus) === null || _ytData$previewPlayab === void 0 ? void 0 : _ytData$previewPlayab.status) === 'ERROR') {
         unlockPlayerResponse(ytData);
       }
     } catch (err) {
